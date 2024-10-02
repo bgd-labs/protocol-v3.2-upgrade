@@ -29,3 +29,7 @@ deploy :
 	npx catapulta-verify -b broadcast/Deploy.s.sol/${chainId}/run-latest.json
 
 deploy-zk :; FOUNDRY_PROFILE=zksync forge script zksync/scripts/Deploy.s.sol:Deployzksync --zksync --system-mode=true --rpc-url zksync --private-key ${PRIVATE_KEY} --sender ${SENDER} --verify --slow --broadcast
+
+
+metis-repro :; forge script scripts/Repro.s.sol:TestDeploy --rpc-url metis --ledger --mnemonic-indexes ${MNEMONIC_INDEX} --sender ${LEDGER_SENDER} --verify --slow --broadcast
+metis-repro-resume :; forge script scripts/Repro.s.sol:TestDeploy --rpc-url metis --ledger --mnemonic-indexes ${MNEMONIC_INDEX} --sender ${LEDGER_SENDER} --verify --slow --broadcast --resume
