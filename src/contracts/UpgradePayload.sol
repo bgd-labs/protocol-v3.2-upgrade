@@ -15,7 +15,7 @@ import {ReserveConfiguration as ReserveConfigurationLegacy} from './lib/LegacyRe
  * @author BGD Labs
  * @dev With the 3.2 going live, we became aware of some integrations that `hard-code` the pool data provider in a non upgreadable fashion.
  * Due to this behavior their contracts are broken and funds are potentially stuck.
- * The 3.2.1 upgrade adds a deprecated stable debt token to the `getReserveData` response, so balanceOf() and totalSupply() requests no longer revert.
+ * This upgrade adds a deprecated stable debt token to the `getReserveData` response, so view methods no longer revert.
  */
 contract UpgradePayload {
   using EModeConfiguration for DataTypes.EModeCategory;
