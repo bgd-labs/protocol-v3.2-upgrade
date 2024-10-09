@@ -8,7 +8,6 @@ import {UpgradePayload} from '../src/contracts/UpgradePayload.sol';
 abstract contract UpgradeTest is ProtocolV3TestBase {
   string public NETWORK;
   uint256 public immutable BLOCK_NUMBER;
-  UpgradePayload public payload;
 
   constructor(string memory network, uint256 blocknumber) {
     NETWORK = network;
@@ -17,7 +16,6 @@ abstract contract UpgradeTest is ProtocolV3TestBase {
 
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl(NETWORK), BLOCK_NUMBER);
-    payload = UpgradePayload(_getPayload());
   }
 
   function test_execution() external {
