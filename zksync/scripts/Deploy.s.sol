@@ -13,7 +13,8 @@ import {PoolInstance} from 'aave-v3-origin/contracts/instances/PoolInstance.sol'
 library DeploymentLibrary {
   function _deployZKSync() internal returns (address) {
     UpgradePayload.ConstructorParams memory params;
-    params.stableDebtToken = params.poolAddressesProvider = AaveV3ZkSync.POOL_ADDRESSES_PROVIDER;
+    params.stableDebtToken = 0x4b57579C895cb5Cd2E7bf6e94888fc6289F3AE95;
+    params.poolAddressesProvider = AaveV3ZkSync.POOL_ADDRESSES_PROVIDER;
     return _deployL1(params);
   }
 

@@ -32,6 +32,7 @@ contract UpgradePayload {
   address public immutable STABLE_DEBT_TOKEN;
 
   constructor(ConstructorParams memory params) {
+    require(params.stableDebtToken != address(0), 'MOCK_TOKEN_MUST_BE_SET');
     POOL_ADDRESSES_PROVIDER = params.poolAddressesProvider;
     POOL_IMPL = params.poolImpl;
     STABLE_DEBT_TOKEN = params.stableDebtToken;
