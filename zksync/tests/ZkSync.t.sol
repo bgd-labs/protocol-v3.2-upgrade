@@ -13,4 +13,8 @@ contract ZkSyncTest is UpgradeTest('zksync', 45249252) {
   function _getDeployedPayload() internal virtual override returns (address) {
     return Payloads.ZKSYNC;
   }
+
+  function _getDeprecatedPDP() internal virtual override returns (address) {
+    return address(0x48B96565291d1B23a014bb9f68E07F4B2bb3Cd6D);
+  }
 }

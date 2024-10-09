@@ -8,29 +8,23 @@ import {IPoolAddressesProvider} from 'aave-address-book/AaveV3.sol';
 import {AaveV3ZkSync} from 'aave-address-book/AaveV3ZkSync.sol';
 
 import {UpgradePayload} from '../../src/contracts/UpgradePayload.sol';
-import {PoolInstance3_2} from '../../src/contracts/PoolInstance.sol';
+import {PoolInstance} from 'aave-v3-origin/contracts/instances/PoolInstance.sol';
 
 library DeploymentLibrary {
   function _deployZKSync() internal returns (address) {
     UpgradePayload.ConstructorParams memory params;
-    params.pool = AaveV3ZkSync.POOL;
-    params.poolConfigurator = AaveV3ZkSync.POOL_CONFIGURATOR;
-    params.poolAddressesProvider = AaveV3ZkSync.POOL_ADDRESSES_PROVIDER;
+    params.stableDebtToken = params.poolAddressesProvider = AaveV3ZkSync.POOL_ADDRESSES_PROVIDER;
     return _deployL1(params);
   }
 
   function _deployL1(UpgradePayload.ConstructorParams memory params) internal returns (address) {
-    params.poolImpl = address(new PoolInstance3_2{salt: 'v1'}(params.poolAddressesProvider));
+    params.poolImpl = address(new PoolInstance{salt: 'v1'}(params.poolAddressesProvider));
     return _deployPayload(params);
   }
 
   function _deployPayload(
     UpgradePayload.ConstructorParams memory params
   ) private returns (address) {
-    params.poolConfiguratorImpl = address(new PoolConfiguratorInstance{salt: 'v1'}());
-    params.poolDataProvider = address(
-      new AaveProtocolDataProvider{salt: 'v1'}(params.poolAddressesProvider)
-    );
     return address(new UpgradePayload(params));
   }
 }
