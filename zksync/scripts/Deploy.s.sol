@@ -20,6 +20,7 @@ library DeploymentLibrary {
 
   function _deployL1(UpgradePayload.ConstructorParams memory params) internal returns (address) {
     params.poolImpl = address(new PoolInstance{salt: 'v1'}(params.poolAddressesProvider));
+    PoolInstance(params.poolImpl).initialize(params.poolAddressesProvider);
     return _deployPayload(params);
   }
 
