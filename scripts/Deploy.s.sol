@@ -124,7 +124,7 @@ library DeploymentLibrary {
       type(PoolInstance).creationCode,
       abi.encode(params.poolAddressesProvider)
     );
-    PoolInstance(params.poolImpl).initialize(params.poolAddressesProvider);
+    //PoolInstance(params.poolImpl).initialize(params.poolAddressesProvider);
     return _deployPayload(params);
   }
 

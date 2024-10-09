@@ -21,6 +21,7 @@ abstract contract UpgradeTest is ProtocolV3TestBase {
   }
 
   function test_execution() external {
+    UpgradePayload payload = UpgradePayload(_getTestPayload());
     executePayload(vm, address(payload));
     IPoolAddressesProvider addressesProvider = UpgradePayload(payload).POOL_ADDRESSES_PROVIDER();
     address stableMock = addressesProvider.getAddress(bytes32('MOCK_STABLE_DEBT'));
@@ -31,7 +32,8 @@ abstract contract UpgradeTest is ProtocolV3TestBase {
   }
 
   function test_outdatedPdp() external {
-    IPoolAddressesProvider addressesProvider = UpgradePayload(payload).POOL_ADDRESSES_PROVIDER();
+    UpgradePayload payload = UpgradePayload(_getTestPayload());
+    IPoolAddressesProvider addressesProvider = payload.POOL_ADDRESSES_PROVIDER();
     IPool pool = IPool(addressesProvider.getPool());
     address[] memory reserves = pool.getReservesList();
     for (uint256 i = 0; i < reserves.length; i++) {
@@ -52,23 +54,24 @@ abstract contract UpgradeTest is ProtocolV3TestBase {
     }
   }
 
-  function test_deployed() external {
-    UpgradePayload deployed = UpgradePayload(_getDeployedPayload());
-    if (address(deployed) == address(0)) return;
-    IPoolAddressesProvider addressesProvider = deployed.POOL_ADDRESSES_PROVIDER();
+  function test_diff() external {
+    UpgradePayload payload = UpgradePayload(_getTestPayload());
+    IPoolAddressesProvider addressesProvider = payload.POOL_ADDRESSES_PROVIDER();
     IPool pool = IPool(addressesProvider.getPool());
     defaultTest(
       string(abi.encodePacked(vm.toString(block.chainid), '_', vm.toString(address(pool)))),
       pool,
-      address(deployed)
+      address(payload)
     );
+  }
+
+  function _getTestPayload() internal returns (address) {
+    return _getDeployedPayload();
   }
 
   function _getPayload() internal virtual returns (address);
 
-  function _getDeployedPayload() internal virtual returns (address) {
-    return address(0);
-  }
+  function _getDeployedPayload() internal virtual returns (address);
 
   function _getDeprecatedPDP() internal virtual returns (address);
 }
