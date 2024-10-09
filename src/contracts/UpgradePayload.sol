@@ -10,6 +10,13 @@ import {DefaultReserveInterestRateStrategyV2} from 'aave-v3-origin/contracts/mis
 import {IDefaultInterestRateStrategyV2} from 'aave-v3-origin/contracts/interfaces/IDefaultInterestRateStrategyV2.sol';
 import {ReserveConfiguration as ReserveConfigurationLegacy} from './lib/LegacyReserveConfiguration.sol';
 
+/**
+ * @title Upgrade the pool to v 3.2.1
+ * @author BGD Labs
+ * @dev With the 3.2 going live, we became aware of some integrations that `hard-code` the pool data provider in a non upgreadable fashion.
+ * Due to this behavior their contracts are broken and funds are potentially stuck.
+ * The 3.2.1 upgrade adds a deprecated stable debt token to the `getReserveData` response, so balanceOf() and totalSupply() requests no longer revert.
+ */
 contract UpgradePayload {
   using EModeConfiguration for DataTypes.EModeCategory;
   using ReserveConfigurationLegacy for DataTypes.ReserveConfigurationMap;
