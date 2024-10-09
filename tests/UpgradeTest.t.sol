@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import 'forge-std/Test.sol';
-import {ProtocolV3TestBase, IPool, IPoolDataProvider, IPoolAddressesProvider} from 'aave-helpers/src/ProtocolV3TestBase.sol';
+import {ProtocolV3TestBase, IPool, IPoolDataProvider, IPoolAddressesProvider, IERC20} from 'aave-helpers/src/ProtocolV3TestBase.sol';
 import {UpgradePayload} from '../src/contracts/UpgradePayload.sol';
 
 abstract contract UpgradeTest is ProtocolV3TestBase {
@@ -22,6 +22,12 @@ abstract contract UpgradeTest is ProtocolV3TestBase {
 
   function test_execution() external {
     executePayload(vm, address(payload));
+    IPoolAddressesProvider addressesProvider = UpgradePayload(payload).POOL_ADDRESSES_PROVIDER();
+    address stableMock = addressesProvider.getAddress(bytes32('MOCK_STABLE_DEBT'));
+    require(stableMock != address(0));
+    // checking non revert
+    IERC20(stableMock).totalSupply();
+    IERC20(stableMock).balanceOf(address(0));
   }
 
   function test_outdatedPdp() external {
