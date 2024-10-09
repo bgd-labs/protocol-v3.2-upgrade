@@ -11,7 +11,7 @@ import {IDefaultInterestRateStrategyV2} from 'aave-v3-origin/contracts/interface
 import {ReserveConfiguration as ReserveConfigurationLegacy} from './lib/LegacyReserveConfiguration.sol';
 
 /**
- * @title Upgrade the pool to v 3.2.1
+ * @title v3.2 upgrade, with getReserveData() patch
  * @author BGD Labs
  * @dev With the 3.2 going live, we became aware of some integrations that `hard-code` the pool data provider in a non upgreadable fashion.
  * Due to this behavior their contracts are broken and funds are potentially stuck.
